@@ -110,6 +110,43 @@ cdef class Comm:
             comm1.ob_mpi, comm2.ob_mpi, &flag) )
         return flag
 
+    # Extend ULFM
+    # -------------------------
+    
+    def EXT_revoke(self):
+        """
+        MPIX_Comm_revoke
+        """
+        with nogil: CHKERR( MPIX_Comm_revoke(self.ob_mpi) )
+
+    def EXT_shrink(self):
+        cdef type comm_type = type(self)
+        cdef Comm comm = <Comm>comm_type.__new__(comm_type)
+        with nogil: CHKERR( MPIX_Comm_shrink(self.ob_mpi, &comm.ob_mpi) )
+        comm_set_eh(comm.ob_mpi)
+        return comm
+
+    def EXT_failure_ack(self):
+        with nogil: CHKERR( MPIX_Comm_failure_ack(self.ob_mpi) )
+
+    def EXT_failure_get_acked(self):
+        cdef Group group = <Group>Group.__new__(Group)
+        with nogil: CHKERR( MPIX_Comm_failure_get_acked(self.ob_mpi, &group.ob_mpi) )
+        return group
+
+    def EXT_agree(self):
+        cdef int flag = 0
+        with nogil: CHKERR( MPIX_Comm_agree(self.ob_mpi, &flag) )
+        return flag
+
+    def EXT_iagree(self):
+        cdef int flag = 0
+        cdef Request request = <Request>Request.__new__(Request)
+        with nogil: CHKERR( MPIX_Comm_iagree(
+            self.ob_mpi, &flag, &request.ob_mpi) )
+        return (flag, request)
+
+
     # Communicator Constructors
     # -------------------------
 
@@ -2210,6 +2247,8 @@ cdef class Intercomm(Comm):
             self.ob_mpi, high, &comm.ob_mpi) )
         comm_set_eh(comm.ob_mpi)
         return comm
+
+
 
 
 

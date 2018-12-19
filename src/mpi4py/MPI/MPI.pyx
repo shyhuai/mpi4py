@@ -2,7 +2,9 @@ __doc__ = """
 Message Passing Interface
 """
 
+
 from mpi4py.libmpi cimport *
+
 
 include "stdlib.pxi"
 include "atimport.pxi"
@@ -367,5 +369,8 @@ def _handleof(arg):
         return <Py_uintptr_t>((<File>arg).ob_mpi)
     else:
         raise TypeError("expecting an MPI instance")
+
+
+
 
 # --------------------------------------------------------------------

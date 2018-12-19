@@ -155,4 +155,13 @@ ctypedef public api class File [
     cdef MPI_File ob_mpi
     cdef unsigned flags
 
-# --
+
+cdef import from "mpi-ext.h" nogil:
+
+    int MPIX_Comm_revoke(MPI_Comm comm)
+    int MPIX_Comm_shrink(MPI_Comm comm, MPI_Comm *newcomm)
+    int MPIX_Comm_failure_ack(MPI_Comm comm)
+    int MPIX_Comm_failure_get_acked(MPI_Comm comm, MPI_Group *failedgrp)
+    int MPIX_Comm_agree(MPI_Comm comm, int *flag)
+    int MPIX_Comm_iagree(MPI_Comm comm, int *flag, MPI_Request *request)
+# -
