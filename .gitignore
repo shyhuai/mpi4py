@@ -12,6 +12,7 @@ MANIFEST
 __pycache__
 *.pyc
 *.pyo
+*.swp
 .tox
 #src/mpi4py.MPI.c
 #src/mpi4py/include/mpi4py/mpi4py.MPI.h
